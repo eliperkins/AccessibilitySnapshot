@@ -35,7 +35,7 @@ jobs:
           message: 'Update ${{ matrix.platform }} snapshots'
           author_name: 'github-actions[bot]'
           author_email: actions@github.com
-          pull: '--rebase'
+          pull: '--rebase --autostash'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Results
