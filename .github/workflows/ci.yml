@@ -35,7 +35,8 @@ jobs:
           git config user.email "GitHub Actions[bot]<actions@github.com>"
           git add Example
           git commit -m 'Update snapshots'
-          git push origin HEAD:${GITHUB_REF##*/}
+          git pull --rebase origin ${{ github.head_ref }}
+          git push origin ${{ github.head_ref }}
       - name: Upload Results
         uses: actions/upload-artifact@v2
         if: failure()
