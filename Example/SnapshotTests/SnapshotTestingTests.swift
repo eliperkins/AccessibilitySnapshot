@@ -29,7 +29,7 @@ final class SnapshotTestingTests: XCTestCase {
 
     override class func setUp() {
         super.setUp()
-        SnapshotTesting.isRecording = true
+        SnapshotTesting.record = true
     }
 
     @available(iOS 13.0, *)
