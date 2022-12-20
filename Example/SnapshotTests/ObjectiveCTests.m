@@ -30,6 +30,8 @@
 {
     [super setUp];
 
+    self.recordMode = YES;
+
     self.fileNameOptions = FBSnapshotTestCaseFileNameIncludeOptionOS | FBSnapshotTestCaseFileNameIncludeOptionScreenSize | FBSnapshotTestCaseFileNameIncludeOptionScreenScale;
 }
 
