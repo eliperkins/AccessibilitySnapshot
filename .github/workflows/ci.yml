@@ -28,16 +28,15 @@ jobs:
         run: bundle exec --gemfile=Example/Gemfile pod install --project-directory=Example
       - name: Build and Test
         run: Scripts/build.swift xcode ${{ matrix.platform }} `which xcpretty`
-      - name: Add changes
-        if: failure()
-        run: |
-          git checkout ${{ github.head_ref }}
-          git pull
-          git config user.name "GitHub Actions[bot]"
-          git config user.email "GitHub Actions[bot]<actions@github.com>"
-          git add Example
-          git commit -m 'Update snapshots'
-          git push origin ${{ github.head_ref }}
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: 'Example'
+          message: 'Update ${{ matrix.platform }} snapshots'
+          author_name: 'github-actions[bot]'
+          author_email: actions@github.com
+          pull: '--rebase'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Results
         uses: actions/upload-artifact@v2
         if: failure()
