@@ -16,7 +16,10 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Bundle Install
         run: bundle install --gemfile=Example/Gemfile
       - name: Select Xcode Version (12.5.1)
