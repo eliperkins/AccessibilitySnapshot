@@ -28,6 +28,13 @@ jobs:
         run: bundle exec --gemfile=Example/Gemfile pod install --project-directory=Example
       - name: Build and Test
         run: Scripts/build.swift xcode ${{ matrix.platform }} `which xcpretty`
+      - name: Add changes
+        run: |
+          git config user.name "GitHub Actions[bot]"
+          git config user.email "GitHub Actions[bot]<actions@github.com>"
+          git add Example
+          git commit -m 'Update snapshots'
+          git push
       - name: Upload Results
         uses: actions/upload-artifact@v2
         if: failure()

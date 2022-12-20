@@ -27,6 +27,11 @@ final class SnapshotTestingTests: XCTestCase {
 
     #if swift(>=5.1) && canImport(SwiftUI)
 
+    override class func setUp() {
+        super.setUp()
+        SnapshotTesting.isRecording = true
+    }
+
     @available(iOS 13.0, *)
     func testSimpleSwiftUIConfiguration() throws {
         guard isOperatingSystemAtLeast13() else {
