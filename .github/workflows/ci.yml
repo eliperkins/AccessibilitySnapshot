@@ -31,11 +31,12 @@ jobs:
       - name: Add changes
         if: failure()
         run: |
+          git checkout ${{ github.head_ref }}
+          git pull
           git config user.name "GitHub Actions[bot]"
           git config user.email "GitHub Actions[bot]<actions@github.com>"
           git add Example
           git commit -m 'Update snapshots'
-          git pull --rebase origin ${{ github.head_ref }}
           git push origin ${{ github.head_ref }}
       - name: Upload Results
         uses: actions/upload-artifact@v2
