@@ -16,7 +16,10 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Bundle Install
         run: bundle install --gemfile=Example/Gemfile
       - name: Select Xcode Version (12.5.1)
@@ -28,6 +31,16 @@ jobs:
         run: bundle exec --gemfile=Example/Gemfile pod install --project-directory=Example
       - name: Build and Test
         run: Scripts/build.swift xcode ${{ matrix.platform }} `which xcpretty`
+      - uses: EndBug/add-and-commit@v9
+        if: failure()
+        with:
+          add: 'Example'
+          message: 'Update ${{ matrix.platform }} snapshots'
+          author_name: 'github-actions[bot]'
+          author_email: actions@github.com
+          pull: '--rebase --autostash'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Results
         uses: actions/upload-artifact@v2
         if: failure()
